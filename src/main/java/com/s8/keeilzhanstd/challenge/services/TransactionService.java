@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.s8.keeilzhanstd.challenge.annotations.Loggable;
 import com.s8.keeilzhanstd.challenge.models.transaction.Transaction;
 import com.s8.keeilzhanstd.challenge.models.transaction.TransactionsResponse;
-import com.s8.keeilzhanstd.challenge.utility.validation.ValidationService;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;

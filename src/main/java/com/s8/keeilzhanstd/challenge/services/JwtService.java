@@ -54,7 +54,7 @@ public class JwtService {
         return Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parseClaimsJws(token).getBody();
     }
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
+    private <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
         final Claims claims = extractClaims(token);
         return claimResolver.apply(claims);
     }

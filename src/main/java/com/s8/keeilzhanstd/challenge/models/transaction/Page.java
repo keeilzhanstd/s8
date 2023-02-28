@@ -23,7 +23,6 @@ public class Page {
     }
 
     private void calculate(String rates) {
-
         // Calculate debit/credit for a page based on the current rates.
         JSONObject obj = new JSONObject(rates);
         for(Transaction transaction: transactions){
