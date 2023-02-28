@@ -1,0 +1,22 @@
+
+spring:
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/challenge
+    username: ${MYSQL_USER:admin}
+    password: ${MYSQL_PASSWORD:admin}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQLDialect
+  kafka:
+    bootstrap-servers: kafka:9092
+
+logging:
+  level:
+    root: info
+    com:
+      s8:
+        keeilzhanstd:
+          challenge: debug
