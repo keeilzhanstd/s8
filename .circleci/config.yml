@@ -1,4 +1,4 @@
-version: '2.1'
+version: '2'
 orbs:
   maven: circleci/maven@1.4.0
   tcc: atomicjar/testcontainers-cloud-orb@0.1.0
