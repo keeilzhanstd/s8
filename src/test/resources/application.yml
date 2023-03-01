@@ -8,3 +8,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+
+jwt:
+  secret: 472D4B6150645367566B597033733676397924423F4528482B4D625165546857
+
+fx:
+  secret: 778d2472420ef861e2c96556

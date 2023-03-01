@@ -1,4 +1,5 @@
 package com.s8.keeilzhanstd.challenge.services;
+import com.s8.keeilzhanstd.challenge.config.JwTokenService;
 import com.s8.keeilzhanstd.challenge.models.user.Role;
 import com.s8.keeilzhanstd.challenge.models.user.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,14 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class JwtServiceTest {
+class JwTokenServiceTest {
     private final String username = "test";
     @Autowired
-    private JwtService service;
+    private JwTokenService service;
 
     @BeforeEach
     void setUp() {
-        service = new JwtService();
+        service = new JwTokenService();
     }
 
     @Test

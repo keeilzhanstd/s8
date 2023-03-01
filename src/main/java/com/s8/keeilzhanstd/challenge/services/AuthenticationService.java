@@ -1,5 +1,6 @@
 package com.s8.keeilzhanstd.challenge.services;
 
+import com.s8.keeilzhanstd.challenge.config.JwTokenService;
 import com.s8.keeilzhanstd.challenge.models.auth.AuthenticationRequest;
 import com.s8.keeilzhanstd.challenge.models.auth.AuthenticationResponse;
 import com.s8.keeilzhanstd.challenge.models.auth.RegisterRequest;
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class AuthenticationService {
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
+    private final JwTokenService jwTokenService;
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
@@ -31,7 +32,7 @@ public class AuthenticationService {
                 .build();
         repository.save(user);
 
-        var jwtToken = jwtService.generateToken(user);
+        var jwtToken = jwTokenService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
@@ -46,7 +47,7 @@ public class AuthenticationService {
         );
         var user = repository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        var jwtToken = jwtService.generateToken(user);
+        var jwtToken = jwTokenService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();

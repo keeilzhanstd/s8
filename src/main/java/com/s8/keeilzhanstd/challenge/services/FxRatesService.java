@@ -1,6 +1,7 @@
 package com.s8.keeilzhanstd.challenge.services;
 
-import com.s8.keeilzhanstd.challenge.utility.PropertiesReader;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -11,10 +12,14 @@ import java.net.URL;
 
 
 @Service
+@NoArgsConstructor
 public class FxRatesService {
 
+    //@Value("${fx.secret}")
+    // remove secret from code at prod
+    private String SECRET = "778d2472420ef861e2c96556";
     // Build url string to send request
-    private final String url_str = "https://v6.exchangerate-api.com/v6/" + PropertiesReader.getProperty("FX_RATE_API_KEY") + "/latest/";
+    private final String url_str = "https://v6.exchangerate-api.com/v6/" + SECRET + "/latest/";
 
     public String getLatestRates(String currency) throws IOException {
 

@@ -1,8 +1,10 @@
 package com.s8.keeilzhanstd.challenge.services;
 
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@NoArgsConstructor
 public class ValidationService {
 
     public void validate(int month, int year, int pageSize) {
