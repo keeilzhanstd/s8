@@ -1,12 +1,13 @@
-version: 2 # use CircleCI 2.0
+version: '2.1'
 orbs:
   maven: circleci/maven@1.4.0
-  tcc: atomicjar/testcontainers-cloud-orb@x.y
+  tcc: atomicjar/testcontainers-cloud-orb@0.1.0
 workflows:
-  build_and_test:
+  maven_test:
     jobs:
       - maven/test:
-          command: verify
-          executor: jdk17
+          executor:
+            name: maven/default
+            tag: "17.0"
           pre-steps:
             - tcc/setup
