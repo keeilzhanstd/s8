@@ -10,8 +10,8 @@ WORKDIR /home/.m2
 USER root
 RUN --mount=type=cache,target=/root/.m2 mvn -f /home/build/pom.xml clean package
 
-#FROM openjdk:17
-#WORKDIR /app
-#COPY --from=build /target/*.jar /app.jar
-#EXPOSE 8080
-#ENTRYPOINT ["java", "-jar", "/app.jar"]
+FROM openjdk:17
+WORKDIR /home/build
+COPY --from=build /target/*.jar /app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "/app.jar"]
