@@ -2,12 +2,10 @@ version: '2'
 orbs:
   maven: circleci/maven@1.4.0
   tcc: atomicjar/testcontainers-cloud-orb@0.1.0
-workflows:
-  maven_test:
-    jobs:
-      - maven/test:
-          executor:
-            name: maven/default
-            tag: "17.0"
-          pre-steps:
-            - tcc/setup
+jobs:
+  - maven/test:
+    executor:
+      name: maven/default
+      tag: "17.0"
+    pre-steps:
+      - tcc/setup
