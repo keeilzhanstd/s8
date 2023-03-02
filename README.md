@@ -229,4 +229,4 @@ Linked repository CI service CircleCi: [Pipelines link](https://app.circleci.com
 
 Configured CircleCi [config.yml](/.circleci/config.yml)
 
-CD: Kubernetes [link]
+CD: Kubernetes [manifests](/k8s)
