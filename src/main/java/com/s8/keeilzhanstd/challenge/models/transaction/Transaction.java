@@ -11,6 +11,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
+
 public class Transaction implements Serializable {
     private String uuid;
 
