@@ -23,5 +23,6 @@ public abstract class BaseServiceTest extends ContainersEnvironment {
     protected JwTokenService jwTokenService;
     @Autowired
     protected FxRatesService fxRatesService;
-
+    @Autowired
+    protected ValidationService validationService;
 }

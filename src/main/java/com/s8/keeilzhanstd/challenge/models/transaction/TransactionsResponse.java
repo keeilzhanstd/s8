@@ -16,7 +16,6 @@ public class TransactionsResponse {
     private String base_currency;
     private List<Page> pages = new ArrayList<>();
 
-
     public TransactionsResponse(List<Transaction> transactions, int pageSize, String rates) {
 
         // Base currency from ratesApi provider https://www.exchangerate-api.com/docs/overview
