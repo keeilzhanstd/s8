@@ -5,11 +5,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FxRatesServiceTest {
-
+class FxRatesServiceTest extends BaseServiceTest{
     @Test
     void getLatestRates() {
-        FxRatesService fxRatesService = new FxRatesService();
         String rates = "";
         try{
             rates = fxRatesService.getLatestRates("USD");

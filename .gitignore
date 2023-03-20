@@ -34,3 +34,4 @@ build/
 
 ### ENV ###
 application-dev.properties
+application-test.properties

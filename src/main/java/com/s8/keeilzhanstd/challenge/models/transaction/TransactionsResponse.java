@@ -10,7 +10,6 @@ import java.util.List;
 
 @Data
 public class TransactionsResponse {
-
     private static final Logger log = LoggerFactory.getLogger(TransactionsResponse.class);
 
     private int pages_amount = 0;
@@ -24,12 +23,7 @@ public class TransactionsResponse {
         try{
             this.base_currency = new JSONObject(rates).get("base_code").toString();
         } catch (Exception e) {
-            if (log.isDebugEnabled())
-            {
-                log.debug(rates);
-                log.debug("ERROR: parsing base currency from ratesApi provider failed");
-            }
-            this.base_currency = "USD";
+            throw new RuntimeException("Failed to parse base currency from ratesApi response. " + e.getMessage());
         }
 
         List<Transaction> tba_transactions = new ArrayList<>();
