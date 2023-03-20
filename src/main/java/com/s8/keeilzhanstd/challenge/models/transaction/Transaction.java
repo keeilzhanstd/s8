@@ -1,12 +1,16 @@
 package com.s8.keeilzhanstd.challenge.models.transaction;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Transaction implements Serializable {
     private String uuid;
 

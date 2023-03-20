@@ -1,11 +1,15 @@
 package com.s8.keeilzhanstd.challenge.models.transaction;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 
 import java.util.List;
 
 @Data
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class Page {
 
     private final List<Transaction> transactions;

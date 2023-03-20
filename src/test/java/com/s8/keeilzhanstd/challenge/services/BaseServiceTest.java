@@ -25,4 +25,11 @@ public abstract class BaseServiceTest extends ContainersEnvironment {
     protected FxRatesService fxRatesService;
     @Autowired
     protected ValidationService validationService;
+
+//    @Autowired
+//    protected KafkaTemplate<String, String> kafkaTemplate;
+//    @Autowired
+//    protected Consumer<String, String> consumer;
+
+
 }

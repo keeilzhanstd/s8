@@ -11,4 +11,6 @@ public class ContainersEnvironment {
     @Container
     public static MySQLContainer mySQLContainer = MySQLTestContainer.getInstance();
 
+    // public static DockerImageName KAFKA_TEST_IMAGE = DockerImageName.parse("confluentinc/cp-kafka:latest");
+
 }

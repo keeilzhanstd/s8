@@ -1,6 +1,8 @@
 package com.s8.keeilzhanstd.challenge.models.transaction;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class TransactionsResponse {
     private static final Logger log = LoggerFactory.getLogger(TransactionsResponse.class);
 
