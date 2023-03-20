@@ -40,7 +40,7 @@ public class FxRatesService {
             in.close();
 
             if(log.isDebugEnabled()){
-                log.debug("FxRatesService.getLatestRates() response: " + response.toString());
+                log.debug("FxRatesService.getLatestRates() response: {}", response);
             }
 
             return response.toString();

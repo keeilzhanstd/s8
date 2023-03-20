@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 public class RegisterRequest {
     @NotNull
     private String username;
-
     @NotNull
     private String password;
 }
