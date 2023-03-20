@@ -153,6 +153,8 @@ GET /api/v1/transactions?month=3&year=2023&pageSize=2&currency=HKD
 
 ## Security
 
+![auth_diagram](/diagrams/auth.drawio.png)
+
 All the incoming request goes through `jwtAuthFilter` to authorize the user.  
 
 In case user provides invalid `Authorization` header the request will not be authorized and `403 Unauthorized` response will be issued.  
@@ -178,6 +180,8 @@ Partition 0 - January transactions
 Partition 1 - February transactions 
 ...
 ```
+
+![kafka_diagram](/diagrams/kafka.png)
 
 **_Producing_**  
 Transaction is published to kafka 

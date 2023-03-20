@@ -30,6 +30,10 @@ public class AuthenticationController {
                     @ApiResponse(
                             responseCode = "201",
                             description = "Successfully registered"
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Error message: e.getMessage()"
                     )
             }
     )
@@ -51,6 +55,10 @@ public class AuthenticationController {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Successfully signed in"
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Error message: e.getMessage()"
                     )
             }
     )
