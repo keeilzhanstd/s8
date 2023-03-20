@@ -20,6 +20,9 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class TransactionService {
+    // Logger
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(TransactionService.class);
+
     private final ValidationService validationService;
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final Consumer<String, String> consumer;
@@ -58,6 +61,7 @@ public class TransactionService {
         try {
             rates = fxService.getLatestRates(currency);
         } catch (IOException e) {
+
             throw new RuntimeException(e);
         }
 

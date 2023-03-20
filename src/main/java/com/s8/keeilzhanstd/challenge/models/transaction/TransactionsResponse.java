@@ -2,19 +2,35 @@ package com.s8.keeilzhanstd.challenge.models.transaction;
 
 import lombok.Data;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 public class TransactionsResponse {
+
+    private static final Logger log = LoggerFactory.getLogger(TransactionsResponse.class);
+
     private int pages_amount = 0;
     private String base_currency;
     private List<Page> pages = new ArrayList<>();
 
+
     public TransactionsResponse(List<Transaction> transactions, int pageSize, String rates) {
 
         // Base currency from ratesApi provider https://www.exchangerate-api.com/docs/overview
-        this.base_currency = new JSONObject(rates).get("base_code").toString();
+        try{
+            this.base_currency = new JSONObject(rates).get("base_code").toString();
+        } catch (Exception e) {
+            if (log.isDebugEnabled())
+            {
+                log.debug(rates);
+                log.debug("ERROR: parsing base currency from ratesApi provider failed");
+            }
+            this.base_currency = "USD";
+        }
 
         List<Transaction> tba_transactions = new ArrayList<>();
 

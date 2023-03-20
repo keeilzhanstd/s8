@@ -21,9 +21,8 @@ import java.util.function.Function;
 @NoArgsConstructor
 public class JwTokenService {
 
-    //@Value("${jwt.secret}")
-    // remove secret from code at prod
-    private String SECRET = "472D4B6150645367566B597033733676397924423F4528482B4D625165546857";
+    @Value("${jwt_bytecode}")
+    private String SECRET;
 
     private Key getSignInKey() {
         byte[] key = Decoders.BASE64.decode(SECRET);

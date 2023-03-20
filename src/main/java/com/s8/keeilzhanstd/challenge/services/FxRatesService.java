@@ -1,6 +1,8 @@
 package com.s8.keeilzhanstd.challenge.services;
 
 import lombok.NoArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -10,19 +12,18 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-
 @Service
 @NoArgsConstructor
 public class FxRatesService {
+    private static final Logger log = LoggerFactory.getLogger(FxRatesService.class);
 
-    //@Value("${fx.secret}")
-    // remove secret from code at prod
-    private String SECRET = "778d2472420ef861e2c96556";
-    // Build url string to send request
-    private final String url_str = "https://v6.exchangerate-api.com/v6/" + SECRET + "/latest/";
+    @Value("${fx_apiKey}")
+    private String SECRET;
+
 
     public String getLatestRates(String currency) throws IOException {
 
+        String url_str = "https://v6.exchangerate-api.com/v6/" + SECRET + "/latest/";
         URL obj = new URL(url_str + currency);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("GET");
@@ -38,10 +39,17 @@ public class FxRatesService {
             }
             in.close();
 
+            if(log.isDebugEnabled()){
+                log.debug("FxRatesService.getLatestRates() response: " + response.toString());
+            }
+
             return response.toString();
         }
 
-        // Error during request ( RC: !200 )
+        if(log.isDebugEnabled()){
+            log.error("FxRatesService.getLatestRates() failed to fetch rates.");
+        }
+
         return null;
     }
 
