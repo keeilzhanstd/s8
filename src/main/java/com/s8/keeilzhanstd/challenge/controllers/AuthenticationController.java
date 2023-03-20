@@ -2,13 +2,14 @@ package com.s8.keeilzhanstd.challenge.controllers;
 
 import com.s8.keeilzhanstd.challenge.annotations.Loggable;
 import com.s8.keeilzhanstd.challenge.models.auth.AuthenticationRequest;
-import com.s8.keeilzhanstd.challenge.models.auth.AuthenticationResponse;
-import com.s8.keeilzhanstd.challenge.services.AuthenticationService;
 import com.s8.keeilzhanstd.challenge.models.auth.RegisterRequest;
+import com.s8.keeilzhanstd.challenge.services.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,15 +28,19 @@ public class AuthenticationController {
             description = "Register a user and retrieve generated JWT",
             responses = {
                     @ApiResponse(
-                            responseCode = "200",
+                            responseCode = "201",
                             description = "Successfully registered"
                     )
             }
     )
-    public ResponseEntity<AuthenticationResponse> register(
+    public ResponseEntity<?> register(
             @RequestBody RegisterRequest request
     ) {
-        return ResponseEntity.ok(service.register(request));
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(service.register(request));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @Loggable
@@ -49,10 +54,16 @@ public class AuthenticationController {
                     )
             }
     )
-    public ResponseEntity<AuthenticationResponse> authenticate(
+    public ResponseEntity<?> authenticate(
             @RequestBody AuthenticationRequest request
     ) {
-        return ResponseEntity.ok(service.authenticate(request));
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(service.authenticate(request));
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
 }

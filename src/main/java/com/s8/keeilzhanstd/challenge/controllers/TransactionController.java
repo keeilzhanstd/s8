@@ -1,14 +1,14 @@
 package com.s8.keeilzhanstd.challenge.controllers;
 
 import com.s8.keeilzhanstd.challenge.annotations.Loggable;
-import com.s8.keeilzhanstd.challenge.services.TransactionService;
 import com.s8.keeilzhanstd.challenge.models.transaction.Transaction;
-import com.s8.keeilzhanstd.challenge.models.transaction.TransactionsResponse;
+import com.s8.keeilzhanstd.challenge.services.TransactionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.security.Principal;
 
 @RestController
@@ -25,12 +25,20 @@ public class TransactionController {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Successfully published a transaction!"
+                    ),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Error message: e.getMessage()"
                     )
             }
     )
-    public ResponseEntity<Transaction> publishTransaction(@RequestBody Transaction transaction, Principal principal)
+    public ResponseEntity<?> publishTransaction(@RequestBody Transaction transaction, Principal principal)
     {
-        return ResponseEntity.ok(service.publish(transaction, principal.getName()));
+        try {
+            return ResponseEntity.ok(service.publish(transaction, principal.getName()));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
     }
 
     @GetMapping
@@ -41,16 +49,24 @@ public class TransactionController {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Successfully retrieved transactions from kafka"
+                    ),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Error message: e.getMessage()"
                     )
             }
     )
-    public ResponseEntity<TransactionsResponse> consumeTransactions(
+    public ResponseEntity<?> consumeTransactions(
             @RequestParam int month,
             @RequestParam int year,
             @RequestParam(defaultValue = "10") int pageSize,
             @RequestParam String currency,
             Principal principal) {
-        return ResponseEntity.ok(service.consume(principal.getName(), month, year, pageSize, currency));
+        try{
+            return ResponseEntity.ok(service.consume(principal.getName(), month, year, pageSize, currency));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
     }
 
 }
