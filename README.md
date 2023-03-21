@@ -1,4 +1,4 @@
-# Synpulse8 backend hiring challenge
+# Synpulse8 backend hiring challenge  
 
 ## Table of contents
 * [General info](#general-info)
