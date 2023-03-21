@@ -1,7 +1,9 @@
 package com.s8.keeilzhanstd.challenge.aspect;
 
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -13,9 +15,11 @@ import java.util.Arrays;
 public class LoggingAspect {
     private static final Logger log = LoggerFactory.getLogger(LoggingAspect.class);
 
+    // Pointcut that matches all methods annotated by custom @Loggable annotation
     @Pointcut(value = "@annotation(com.s8.keeilzhanstd.challenge.annotations.Loggable)")
     public void loggableMethods() { }
 
+    // Advice that logs method execution
     @Around("loggableMethods()")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
         if (log.isDebugEnabled()) {

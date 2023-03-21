@@ -40,24 +40,35 @@ public class TransactionService {
         // Add random uuid for each transaction
         transaction.setUuid(UUID.randomUUID().toString());
 
+        // Get year and month from transaction date
         Calendar cal = Calendar.getInstance();
         cal.setTime(transaction.getDate());
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
 
+        // Set topic name
         String topic = "transactions-Y"+year+"-"+userKey;
 
         try {
             // Prepare Transaction for a StringSerializer
             String topicTransaction = new ObjectMapper().writeValueAsString(transaction);
+
+            // Publish transaction to Kafka
             kafkaTemplate.send(topic, month, transaction.getUuid(), topicTransaction);
 
+            // Log action
             if(log.isDebugEnabled()){
                 log.debug("TransactionService.publish() published transaction: {}", topicTransaction);
             }
 
             return transaction;
         } catch (JsonProcessingException e) {
+
+            // Log error
+            if(log.isDebugEnabled()){
+                log.error("TransactionService.publish() failed to publish transaction: {}", transaction);
+            }
+
             throw new RuntimeException(e);
         }
     }
@@ -73,16 +84,22 @@ public class TransactionService {
         try {
             rates = fxService.getLatestRates(currency);
         } catch (IOException e) {
+            // Log error
+            if(log.isDebugEnabled()){
+                log.error("TransactionService.consume() failed to fetch latest rates for currency: {}", currency);
+            }
             throw new RuntimeException(e);
         }
 
         // Retrieve list of transactions for specified (month, year) by user_key (@username) from Kafka
         List<Transaction> transactions = getTransactionsListByUserKey(month, year, userKey);
 
+        // Build pages
         List<Transaction> tba_transactions = new ArrayList<>();
         List<Page> pages = new ArrayList<>();
         int pages_amount = 0;
 
+        // Iterate user transactions for month, year
         for(Transaction t: transactions) {
 
             // Append transactions to page until transactions != pageSize
@@ -97,6 +114,8 @@ public class TransactionService {
                         .pageNumber(++pages_amount)
                         .creditDebit(calculateRates(rates, tba_transactions))
                         .build());
+
+                // Reset tba_transactions
                 tba_transactions = new ArrayList<>();
             }
         }
@@ -120,21 +139,34 @@ public class TransactionService {
     }
 
     private List<Transaction> getTransactionsListByUserKey(int month, int year, String userKey) {
+        // Get transactions from Kafka
         ObjectMapper mapper = new ObjectMapper();
         List<Transaction> results = new ArrayList<>();
         ConsumerRecords<String, String> data;
 
+        // Set topic name
         String topic = "transactions-Y"+year+"-"+userKey;
+
+        // Set topic partition
         TopicPartition tp = new TopicPartition(topic, month - 1);
 
         // Subscribe consumer to a kafka topic.
         consumer.assign(List.of(tp));
+
+        // Seek to the beginning of the topic
         consumer.seek(tp, 0);
         do {
+
+            // Poll for new data
             data = consumer.poll(Duration.ofMillis(500));
+
+            // Iterate over records
             for (ConsumerRecord<String, String> record : data.records(topic)) {
                 try {
+                    // Deserialize record
                     Transaction t = mapper.readValue(record.value(), Transaction.class);
+
+                    // Add transaction to results
                     results.add(t);
                 } catch (JsonProcessingException e) {
                     throw new RuntimeException(e);
@@ -168,6 +200,7 @@ public class TransactionService {
         ...
          */
 
+        // Calculate credit/debit
         JSONObject obj = new JSONObject(rates);
         double state = 0;
         for(Transaction transaction: tba_transactions){
